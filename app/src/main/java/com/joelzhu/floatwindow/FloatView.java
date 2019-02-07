@@ -16,7 +16,7 @@ import java.lang.ref.WeakReference;
  *
  * This is a view group, which means can contains views in it, such as TextView, Button, Image, etc. But differ from
  * other view group, when touching inside or something else, it will pop up a float window above all the
- * applications. We can make the trigger that pop up the window as the way we want, if we implements
+ * applications. We can make the trigger that pop up the window as the way we want, if we extend
  * {@link BaseFloatWindow}, and override the method {@link BaseFloatWindow#doOnDispatchEvent(MotionEvent)} and the
  * method {@link BaseFloatWindow#doOnTouchEvent(MotionEvent)}.
  *
