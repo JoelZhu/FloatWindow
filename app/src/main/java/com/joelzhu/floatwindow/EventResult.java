@@ -13,7 +13,7 @@ import java.lang.annotation.RetentionPolicy;
  *
  * The result types are as below:
  * 1) {@link #SUPER}: It will return super.{@link View#dispatchTouchEvent(MotionEvent)} or
- *      super.{@link View#onTouchEvent(MotionEvent)}.
+ * super.{@link View#onTouchEvent(MotionEvent)}.
  * 2) {@link #TRUE}: It will return {@link Boolean#TRUE}.
  * 3) {@link #FALSE}: It will return {@link Boolean#FALSE}.
  */

@@ -15,7 +15,7 @@ import java.lang.annotation.RetentionPolicy;
  *
  * The layout types are as below:
  * 1) {@link #ITSELF}: The window's layout is the {@link ViewGroup} itself, in this case, will remove the view from
- *      it's parent view group first. So, we must call {@link Builder#parent(ViewGroup)} at this layout type.
+ * it's parent view group first. So, we must call {@link Builder#parent(ViewGroup)} at this layout type.
  * 2) {@link #VIEW}: The window's layout was created by a {@link View} instance.
  * 3) {@link #RESOURCE}: The window's layout was create by the {@link LayoutInflater} from xml files.
  */
@@ -28,5 +28,5 @@ import java.lang.annotation.RetentionPolicy;
 public @interface LayoutType {
     int ITSELF = 1;
     int VIEW = 2;
-    int RESOURCE =3;
+    int RESOURCE = 3;
 }

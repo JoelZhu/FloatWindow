@@ -17,39 +17,33 @@ import android.widget.TextView;
 public class MainActivity extends Activity {
     private FloatView mFloatView;
     LinearLayout linearLayout;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        
         setContentView(R.layout.activity_main);
         linearLayout = (LinearLayout) findViewById(R.id.rootView);
-
+        
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(MainActivity.this)) {
             // No permission gained, jump to request permission.
             Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
             startActivity(intent);
         }
-
+        
         View view = new View(this);
         view.setLayoutParams(new ViewGroup.LayoutParams(300, 300));
         view.setBackgroundColor(Color.BLUE);
-
+        
         mFloatView = new FloatView.Builder(this, LauncherFloat.class)
-//                .layout(R.layout.test)
-//                .layout(view)
                 .moveDirection(MoveDirection.FIRST_DIRECTION)
-//                .windowWidth(500)
-//                .windowHeight(500)
                 .parent(linearLayout)
                 .transparent(0.7f)
                 .create();
-
-//        mFloatView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams
-//                .WRAP_CONTENT));
+        
         mFloatView.setLayoutParams(new ViewGroup.LayoutParams(300, 300));
         mFloatView.setBackgroundColor(Color.YELLOW);
-
+        
         TextView textView = new TextView(this);
         textView.setText("Child View");
         textView.setBackgroundColor(Color.RED);
