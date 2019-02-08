@@ -40,6 +40,10 @@ public abstract class BaseFloatWindow {
     protected int mWindowX = FloatWindowHelper.DEFAULT_WINDOW_X;
     protected int mWindowY = FloatWindowHelper.DEFAULT_WINDOW_Y;
 
+    // Float window's margin left and margin right.
+    protected int mFloatViewLeft;
+    protected int mFloatViewTop;
+
     // Screen size.
     private int mScreenWidth;
     private int mScreenHeight;
@@ -79,6 +83,9 @@ public abstract class BaseFloatWindow {
         mLastX = 0;
         mLastY = 0;
 
+        mWindowX = FloatWindowHelper.DEFAULT_WINDOW_X;
+        mWindowY = FloatWindowHelper.DEFAULT_WINDOW_Y;
+
         // Reset the first direction.
         mFirstDirection = FirstDirection.NO_DIRECTION;
     }
@@ -87,10 +94,8 @@ public abstract class BaseFloatWindow {
      * Pop up the window from the origin view's position.
      */
     protected void popupWindowFromOrigin() {
-        final int left = mView.getLeft() + mView.getWidth() / 2;
-        final int top = mView.getTop() + mView.getHeight() / 2;
-        mLayoutParams.x = left;
-        mLayoutParams.y = top;
+        final int left = mFloatViewLeft + mLayoutParams.width / 2;
+        final int top = mFloatViewTop + mLayoutParams.height / 2;
         popupWindow(left, top);
     }
 

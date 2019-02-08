@@ -41,6 +41,10 @@ public class FloatView extends LinearLayout {
     // Float window instance.
     private BaseFloatWindow mFloatWindow;
 
+    // Is there necessary to update window's size when layout the view.
+    // No need to update the size when set size by us outside.
+    private boolean mIsNeedLayout = true;
+
     /**
      * Builder: to create the {@link FloatView} instance.
      */
@@ -72,7 +76,7 @@ public class FloatView extends LinearLayout {
         private int mWindowX = FloatWindowHelper.DEFAULT_WINDOW_X;
         private int mWindowY = FloatWindowHelper.DEFAULT_WINDOW_Y;
 
-        // Window's size.
+        // Window's size. It will not work if layout type set as the view itself.
         private int mWindowWidth;
         private int mWindowHeight;
 
@@ -122,11 +126,17 @@ public class FloatView extends LinearLayout {
             return this;
         }
 
+        /**
+         * It will not work if layout type set as the view itself.
+         */
         public Builder windowWidth(int windowWidth) {
             this.mWindowWidth = windowWidth;
             return this;
         }
 
+        /**
+         * It will not work if layout type set as the view itself.
+         */
         public Builder windowHeight(int windowHeight) {
             this.mWindowHeight = windowHeight;
             return this;
@@ -174,11 +184,15 @@ public class FloatView extends LinearLayout {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        if (changed && mFloatWindow.mLayoutType == LayoutType.ITSELF) {
+        // If layout has changed, and never specified by us, set the window's size.
+        if (changed && mIsNeedLayout) {
             int mViewWidth = r - l;
             int mViewHeight = b - t;
-            FloatWindowHelper.printInfoLog("Set window's size by the view group itself size.");
             setWindowSize(mViewWidth, mViewHeight);
+        }
+        // If layout has changed, update the float view's margin.
+        if (changed) {
+            setFloatViewMargin(l, t);
         }
         super.onLayout(changed, l, t, r, b);
     }
@@ -225,14 +239,14 @@ public class FloatView extends LinearLayout {
         mFloatWindow.onWindowCreate();
 
         // Set window's size.
-        if (layoutType == LayoutType.ITSELF) {
-            FloatWindowHelper.printInfoLog("Window's size calculating, will set later.");
-        } else if (windowWidth != 0 && windowHeight != 0) {
-            FloatWindowHelper.printInfoLog("Set window's size by custom size.");
+        // It will not work if layout type set as the view itself.
+        if (windowWidth != 0 && windowHeight != 0 && layoutType != LayoutType.ITSELF) {
+            FloatWindowHelper.printInfoLog("Set window's size by specified size.");
             setWindowSize(windowWidth, windowHeight);
+            mIsNeedLayout = false;
         } else {
             FloatWindowHelper.printInfoLog("Set window's size by it's actual size.");
-            setWindowSize(layoutType, windowView);
+            mIsNeedLayout = true;
         }
 
         // Set window's transparent.
@@ -298,7 +312,7 @@ public class FloatView extends LinearLayout {
     }
 
     /**
-     * Set window's size from specified size, no matter what the size is from layout.
+     * Set window's size.
      */
     private void setWindowSize(int windowWidth, int windowHeight) {
         mFloatWindow.mLayoutParams.width = windowWidth;
@@ -308,36 +322,10 @@ public class FloatView extends LinearLayout {
     }
 
     /**
-     * Set window's size from specified layout, both from resource layout and view instance.
+     * Set float view's margin.
      */
-    private void setWindowSize(@LayoutType int layoutType, View view) {
-        if (view == null) {
-            FloatWindowHelper.printErrorLog("Host view is null.");
-            return;
-        }
-
-        switch (layoutType) {
-            case LayoutType.VIEW:
-                // Get window's size from view instance.
-                mFloatWindow.mLayoutParams.width = view.getLayoutParams().width;
-                mFloatWindow.mLayoutParams.height = view.getLayoutParams().height;
-                break;
-
-            case LayoutType.RESOURCE:
-                // Get window's size from measuring result which calculated thought view instance.
-                // TODO: With some problems when get view's width & height.
-                int width = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.EXACTLY);
-                int height = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.EXACTLY);
-                view.measure(width, height);
-                mFloatWindow.mLayoutParams.width = view.getMeasuredWidth();
-                mFloatWindow.mLayoutParams.height = view.getMeasuredHeight();
-                break;
-
-            default:
-                break;
-        }
-
-        FloatWindowHelper.printInfoLog("Window's width & height: " + mFloatWindow.mLayoutParams.width + ", " +
-                mFloatWindow.mLayoutParams.height);
+    private void setFloatViewMargin(int windowLeft, int windowTop) {
+        mFloatWindow.mFloatViewLeft = windowLeft;
+        mFloatWindow.mFloatViewTop = windowTop;
     }
 }

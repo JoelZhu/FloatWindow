@@ -2,6 +2,9 @@ package com.joelzhu.floatwindow;
 
 import android.view.MotionEvent;
 
+/**
+ * Sample implemented class.
+ */
 public final class LauncherFloat extends BaseFloatWindow {
     @Override
     public int doOnDispatchEvent(MotionEvent event) {

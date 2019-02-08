@@ -36,10 +36,11 @@ public class MainActivity extends Activity {
         view.setBackgroundColor(Color.BLUE);
 
         mFloatView = new FloatView.Builder(this, LauncherFloat.class)
-//                .layout(mFloatView)
 //                .layout(R.layout.test)
 //                .layout(view)
                 .moveDirection(MoveDirection.FIRST_DIRECTION)
+//                .windowWidth(500)
+//                .windowHeight(500)
                 .parent(linearLayout)
                 .transparent(0.7f)
                 .create();
